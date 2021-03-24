@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .mainDiv{
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: blue;
+        }
+        .centerDiv{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            text-align: center;
+            font-family: 'Lora', serif;
+
+        }
+        h1{
+            text-transform: capitalize;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 2px 3px #2980b9;
+            font-size: 2.1rem;
+        }
+        h2{text-align: center;}
+        textarea{
+            background-color: #444;
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+            border-radius: 10px 10px 0 0;
+            border: 20px solid #34495e;
+            color: white;
+            font-size: 1.3rem;
+        }
+        .mainbtn{
+            padding: 10px 20px;
+            border-radius: 20px;
+            background: #ecf0f1;
+            font-size: 1rem;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="mainDiv">
+        <div class="centerDiv">
+            <h1>Welcome to typing speed test</h1>
+            <h2 id="msg"></h2>
+            <textarea name="" id="mywords" cols="70" rows="20" placeholder="start the test"></textarea>
+         <br>
+            <button id="btn" class="mainbtn">Start</button>
+        </div>
+    </div>
+    <script>
+        const setOfWords=[
+            "my name is ankit thakur and i am a software engineer.",
+            "hope you enjoying this is simple game you can make.",
+            "speed up your typing speed it helps you in future so you can create your own version of this challenge."
+       ];
+       const msg =document.getElementById("msg");
+       const typeWords =document.getElementById("mywords");
+       const btn = document.getElementById("btn");
+       let starttime,endtime;
+
+
+    const playGame=()=>{
+        let randomNumber = Math.floor(Math.random()*setOfWords.length);
+        msg.innerText = setOfWords[randomNumber];
+        let date = new Date();
+        starttime=date.getTime();
+        btn.innerText="Done";
+    }
+
+    const endplay=()=>{
+        let date = new Date();
+        endtime = date.getTime();
+        let totaltime = ((endtime-starttime)/1000);
+        let totalstr = typeWords.value;
+        let wordcount = wordcounter(totalstr);
+
+        let speed = Math.round((wordcount/totaltime)*60);
+        let finalmsg ="you typed total at " + speed+ " words per minutes ";
+        finalmsg +=compareword(msg.innerText,totalstr);
+        msg.innerText=finalmsg;
+
+    }
+    const wordcounter=(str)=>{
+        let response = str.split(" ").length;
+        return response;
+    }
+    const compareword=(str1,str2)=>{
+        let words1 = str1.split( " ");
+        let words2 = str2.split(" ");
+        let cnt=0;
+
+        words1.forEach(function (item,index){
+            if(item==words2[index]){
+                cnt++;
+            }
+            
+        })
+        let errorWords=(words1.length-cnt);
+        return(cnt + "correct out of " + words1.length + "words and the total number of error are "+ errorWords + " .");
+
+    }
+
+
+   
+        
+
+       btn.addEventListener('click',function(){
+           if(this.innerText=='Start'){
+               typeWords.disabled=false;
+               playGame();
+           }else if(this.innerText=="Done"){
+               typeWords.disabled = true;
+               btn.innerText="Start";
+               endplay();
+           }
+       })
+
+    </script>
+    
+</body>
+</html>
